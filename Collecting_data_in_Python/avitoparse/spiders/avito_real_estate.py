@@ -8,13 +8,16 @@ class AvitoRealEstateSpider(scrapy.Spider):
     allowed_domains = ['www.avito.ru', 'avito.ru']
     start_urls = ['https://www.avito.ru/abakan/kvartiry/prodam-ASgBAgICAUSSA8YQ?cd=1']
 
-    def parse(self, response):  # Page pagination
+    # Page pagination
+    def parse(self, response):
         for num in response.xpath('//div[@data-marker="pagination-button"]//span/text()'):
             try:
                 tmp = int(num.get())
                 yield response.follow(f'https://www.avito.ru/abakan/kvartiry/prodam-ASgBAgICAUSSA8YQ?cd=1&p={tmp}',
                                       callback=self.parse)
             except ValueError as e:
+                continue
+            except TypeError as e:
                 continue
 
         # Getting links of apartments
@@ -24,4 +27,4 @@ class AvitoRealEstateSpider(scrapy.Spider):
     def abs_parse(self, response):
         item = ItemLoader(AvitoRealEstateItem(), response)
         item.add_xpath('photos', "//div[contains(@class, 'gallery-img-frame')]/@data-url")
-        yield item
+        yield item.load_item()
