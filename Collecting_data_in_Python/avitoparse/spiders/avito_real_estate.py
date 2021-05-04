@@ -1,4 +1,6 @@
 import scrapy
+from scrapy.loader import ItemLoader
+from avitoparse.items import AvitoRealEstateItem
 
 
 class AvitoRealEstateSpider(scrapy.Spider):
@@ -20,4 +22,6 @@ class AvitoRealEstateSpider(scrapy.Spider):
             yield response.follow(abs_url, callback=self.abs_parse)
 
     def abs_parse(self, response):
-        print(1)
+        item = ItemLoader(AvitoRealEstateItem(), response)
+        item.add_xpath('photos', "//div[contains(@class, 'gallery-img-frame')]/@data-url")
+        yield item
