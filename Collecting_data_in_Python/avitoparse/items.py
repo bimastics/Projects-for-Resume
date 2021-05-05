@@ -29,4 +29,3 @@ class AvitoRealEstateItem(scrapy.Item):
     kitchen_square = scrapy.Field(output_processor=TakeFirst())
     balcony_or_loggia = scrapy.Field(output_processor=TakeFirst())
     view_from_window = scrapy.Field(output_processor=TakeFirst())
-    Finishing = scrapy.Field(output_processor=TakeFirst())

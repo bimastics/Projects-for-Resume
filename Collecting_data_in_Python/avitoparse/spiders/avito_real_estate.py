@@ -53,7 +53,5 @@ class AvitoRealEstateSpider(scrapy.Spider):
                 item.add_value('active_square', float(info[-1][:-4]))
             elif 'Площадь кухни' in info[1]:
                 item.add_value('kitchen_square', float(info[-1][:-4]))
-            elif 'Отделка' in info[1]:
-                item.add_value('Finishing', info[-1].strip())
 
         yield item.load_item()
