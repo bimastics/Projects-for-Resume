@@ -41,21 +41,24 @@ class ImgPipeline(ImagesPipeline):
 
 class CSVPipeline(object):
     def __init__(self):
-        self.file = f'database.csv'
-        with open(self.file, 'r', newline='') as csv_file:
-            self.tmp_data = csv.DictReader(csv_file).fieldnames
+        self.file = 'database.csv'
 
-        self.csv_file = open(self.file, 'a', newline='', encoding='UTF-8')
+        with open(self.file, 'r', newline='') as csv_file:
+            reader = csv.DictReader(csv_file)
+            self.id_to_csv = [int(row['id']) for row in reader]
+            self.column_name = reader.fieldnames
 
     def process_item(self, item, spider):
+        csv_file = open(self.file, 'a', newline='', encoding='UTF-8')
         colums = item.fields.keys()
 
-        data = csv.DictWriter(self.csv_file, colums)
-        if not self.tmp_data:
+        data = csv.DictWriter(csv_file, colums)
+        if not self.column_name:
             data.writeheader()
-            self.tmp_data = True
-        data.writerow(item)
-        return item
+            self.column_name = True
 
-    def __del__(self):
-        self.csv_file.close()
+        if item['id'] not in self.id_to_csv:
+            data.writerow(item)
+        csv_file.close()
+
+        return item
