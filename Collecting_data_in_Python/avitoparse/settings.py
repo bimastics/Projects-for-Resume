@@ -21,6 +21,7 @@ ROBOTSTXT_OBEY = False
 
 LOG_ENABLED = True
 LOG_LEVEL = 'INFO'
+IMAGES_STORE = 'images_avito'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -28,7 +29,7 @@ LOG_LEVEL = 'INFO'
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1.5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -67,6 +68,7 @@ TELNETCONSOLE_ENABLED = False
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'avitoparse.pipelines.AvitoparsePipeline': 300,
+   'avitoparse.pipelines.ImgPipeline': 100
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
