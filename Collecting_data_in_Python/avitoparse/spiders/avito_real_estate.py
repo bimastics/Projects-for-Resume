@@ -37,7 +37,7 @@ class AvitoRealEstateSpider(scrapy.Spider):
             info = param.css("::text").extract()
 
             if 'Тип дома' in info[1]:
-                item.add_value('house_type', info[-1])
+                item.add_value('house_type', info[-1].strip())
             elif 'Этаж' in info[1]:
                 item.add_value('floor', int(info[-1][0]))
                 item.add_value('house_floor', int(info[-1][-2]))
